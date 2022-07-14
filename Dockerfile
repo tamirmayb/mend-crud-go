@@ -1,7 +1,7 @@
 FROM golang:1.16
 
 # Set the Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/mend-crud-go
+WORKDIR $GOPATH/src/github.com/tamirmayb/mend-crud-go.git
 
 # Copy everything from the current directory to the PWD(Present Working Directory) inside the container
 COPY . .
@@ -16,4 +16,4 @@ RUN go install -v ./...
 EXPOSE 8080
 
 # Run the executable
-CMD ["go-sample-app"]
+CMD ["mend-crud-go"]
