@@ -19,6 +19,7 @@ type Person struct {
 	Lastname  string             `json:"lastname,omitempty" bson:"lastname,omitempty"`
 }
 
+//GetPerson returns a person by id from db
 func GetPerson(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("Inside GetPerson ...")
 	response.Header().Set("content-type", "application/json")
@@ -36,6 +37,7 @@ func GetPerson(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(person)
 }
 
+//GetPeople returns all people from db
 func GetPeople(response http.ResponseWriter, req *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	var people []Person
@@ -61,6 +63,7 @@ func GetPeople(response http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(response).Encode(people)
 }
 
+//CreatePerson Creates a new person
 func CreatePerson(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	var person Person
@@ -71,6 +74,7 @@ func CreatePerson(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(result)
 }
 
+//UpdatePerson Creates an existing person
 func UpdatePerson(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	var person Person
@@ -84,6 +88,7 @@ func UpdatePerson(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(result)
 }
 
+//DeletePerson deletes an existing person
 func DeletePerson(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	params := mux.Vars(request)
