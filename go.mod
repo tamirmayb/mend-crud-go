@@ -1,4 +1,4 @@
-module medium_go_fiber_swagger
+module mend-crud-go
 
 go 1.16
 

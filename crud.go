@@ -11,9 +11,7 @@ import (
 	"time"
 )
 
-const people = "people"
-
-var collection = client.Database(dbName).Collection(people)
+const tableName = "people"
 
 type Person struct {
 	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
@@ -28,6 +26,7 @@ func GetPerson(response http.ResponseWriter, request *http.Request) {
 	id, _ := primitive.ObjectIDFromHex(params["id"])
 	var person Person
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	collection := client.Database(dbName).Collection(tableName)
 	err := collection.FindOne(ctx, Person{ID: id}).Decode(&person)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
@@ -41,6 +40,7 @@ func GetPeople(response http.ResponseWriter, req *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	var people []Person
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	collection := client.Database(dbName).Collection(tableName)
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
@@ -66,6 +66,7 @@ func CreatePerson(response http.ResponseWriter, request *http.Request) {
 	var person Person
 	_ = json.NewDecoder(request.Body).Decode(&person)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	collection := client.Database(dbName).Collection(tableName)
 	result, _ := collection.InsertOne(ctx, person)
 	json.NewEncoder(response).Encode(result)
 }
@@ -78,6 +79,7 @@ func UpdatePerson(response http.ResponseWriter, request *http.Request) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	filter := bson.D{{"firstname", name}}
 	update := bson.M{"$set": bson.M{"lastname": person.Lastname}}
+	collection := client.Database(dbName).Collection(tableName)
 	result, _ := collection.UpdateOne(ctx, filter, update)
 	json.NewEncoder(response).Encode(result)
 }
@@ -88,6 +90,7 @@ func DeletePerson(response http.ResponseWriter, request *http.Request) {
 	name, _ := params["firstname"]
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	filter := bson.D{{"firstname", name}}
+	collection := client.Database(dbName).Collection(tableName)
 	result, _ := collection.DeleteOne(ctx, filter)
 	json.NewEncoder(response).Encode(result)
 }
