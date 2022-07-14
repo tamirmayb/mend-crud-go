@@ -79,9 +79,9 @@ func UpdatePerson(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	var person Person
 	params := mux.Vars(request)
-	name, _ := params["firstname"]
+	id, _ := params["id"]
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	filter := bson.D{{"firstname", name}}
+	filter := bson.D{{"id", id}}
 	update := bson.M{"$set": bson.M{"lastname": person.Lastname}}
 	collection := client.Database(dbName).Collection(tableName)
 	result, _ := collection.UpdateOne(ctx, filter, update)
@@ -92,9 +92,9 @@ func UpdatePerson(response http.ResponseWriter, request *http.Request) {
 func DeletePerson(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("content-type", "application/json")
 	params := mux.Vars(request)
-	name, _ := params["firstname"]
+	id, _ := params["id"]
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	filter := bson.D{{"firstname", name}}
+	filter := bson.D{{"id", id}}
 	collection := client.Database(dbName).Collection(tableName)
 	result, _ := collection.DeleteOne(ctx, filter)
 	json.NewEncoder(response).Encode(result)

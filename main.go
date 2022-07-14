@@ -26,8 +26,8 @@ func main() {
 	router.HandleFunc("/people", GetPeople).Methods("GET")
 	router.HandleFunc("/people/{id}", GetPerson).Methods("GET")
 	router.HandleFunc("/person", CreatePerson).Methods("POST")
-	router.HandleFunc("/people/{firstname}", UpdatePerson).Methods("PUT")
-	router.HandleFunc("/people/{firstname}", DeletePerson).Methods("DELETE")
+	router.HandleFunc("/people/{id}", UpdatePerson).Methods("PUT")
+	router.HandleFunc("/people/{id}", DeletePerson).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
