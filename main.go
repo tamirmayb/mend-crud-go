@@ -20,7 +20,7 @@ const (
 var client *mongo.Client
 
 func main() {
-	fmt.Println("Starting the application...")
+	fmt.Println("Starting the mend-crud app...")
 	client, _ = initDB()
 	router := mux.NewRouter()
 	router.HandleFunc("/people", GetPeople).Methods("GET")
